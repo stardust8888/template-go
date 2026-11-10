@@ -1,0 +1,77 @@
+# 应用配置
+[app]
+name = "template-go"
+version = "1.0.0"
+env = "staging" #production
+
+# 数据库配置
+[mysql]
+endpoint = "127.0.0.1:3306"
+username = "root"
+password = "6d7e9f4154722facc9ca50ac1678581657977cce0ed3fa05dbbaa360c27514c011d2acca5e"
+dbname = "template-server"
+migrate = 0
+
+[mysql_admin]
+endpoint = "127.0.0.1:3306"
+username = "root"
+password = "6d7e9f4154722facc9ca50ac1678581657977cce0ed3fa05dbbaa360c27514c011d2acca5e"
+dbname = "template-admin"
+migrate = 0
+
+[redis]
+endpoints = ["127.0.0.1:6379"]
+username = ""
+password = "6d7e9f4154722facc9ca50ac1678581657977cce0ed3fa05dbbaa360c27514c011d2acca5e"
+
+[log]
+output = "console"
+level = -1
+path = "./logs/"
+max_size = 100
+max_backups = 30
+max_age = 7
+compress = true
+
+[wx]
+endpoint = "https://api.weixin.qq.com"
+app_id = "wx0eedd39644ad8b15"
+secret = "62dd3e745388f2e6c9fa8bc9d765faa4"
+pay_endpoint = "https://api.mch.weixin.qq.com"
+pay_endpoint_callback = "https://xxx"
+mch_id = ""
+
+[minio]
+addr = "127.0.0.1:9000"
+username = "minio"
+password = "6d7e9f4154722facc9ca50ac1678581657977cce0ed3fa05dbbaa360c27514c011d2acca5e"
+use_ssl = false
+bucket = "template"
+
+[cron]
+save_message = "0 3 * * *"
+delete_user = "0 * * * *"
+
+# Kafka 配置（github.com/IBM/sarama）
+[kafka]
+version = "3.0.0"
+
+[kafka.producer_message]
+brokers = ["127.0.0.1:9092"]
+topic = "message_push"
+async = false            # true=异步生产者(不等确认即返回)；false=同步等待确认
+required_backs = 1       # -1=all(所有 ISR)，1=leader，0=none
+
+[kafka.consumer_message_push]
+brokers = ["127.0.0.1:9092"]
+topic = "message_push"
+group_id = "message-push-consumer"
+start_offset = -2        # -2=earliest，-1=latest
+commit_interval = 5000   # 自动提交间隔(ms)，0=手动(由 session 结束提交)
+
+[kafka.consumer_message_save]
+brokers = ["127.0.0.1:9092"]
+topic = "message_save"
+group_id = "message-save-consumer"
+start_offset = -2
+commit_interval = 5000
